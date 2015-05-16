@@ -5,3 +5,8 @@
 chrome.runtime.onInstalled.addListener (details) ->
   console.log('previousVersion', details.previousVersion)
 
+chrome.tabs.onActivated.addListener (callback) ->
+	
+
+
+
