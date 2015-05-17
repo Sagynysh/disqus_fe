@@ -40,18 +40,20 @@
       req.open('GET', sitecomments, true);
       req.send();
       return req.onreadystatechange = function() {
-        var commentcount, i, myArr, tableComment, x, _i, _len, _ref;
+        var commentcount, gravatar, i, myArr, tableComment, x, _i, _len, _ref;
         if (req.readyState === 4 && req.status === 200) {
           myArr = JSON.parse(req.responseText);
           commentcount = 0;
+          $('#commentstable').html("");
           _ref = myArr.objects;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             i = _ref[_i];
             x = document.getElementById("commentPanel");
             if (comment_id === i.site) {
               commentcount++;
-              tableComment = '<table style="border:solid 1px red; width:100%;"> <tr><td rowspan=3>Image</td><td><h4>' + i.nickname + '</h4></td> <td><h6>' + (i.pub_date.substring(0, 16)) + '</h6></td></tr> <tr><td colspan=2><h5>' + i.comment + '</h5></td><tr> </table>';
-              $('#comments').append(tableComment);
+              gravatar = '<img src = "https://www.gravatar.com/avatar/' + hex_md5(i.email) + '?s=50" style="border-radius:25px 25px 25px 25px"/>';
+              tableComment = '<tr><td rowspan=3>' + gravatar + '</td><td><h4>' + i.nickname + '</h4></td> <td><h6>' + (i.pub_date.substring(2, 4)) + '.' + (i.pub_date.substring(5, 7)) + '.' + (i.pub_date.substring(8, 10)) + '</h6></td></tr> <tr><td colspan=2><h5>' + i.comment + '</h5></td><tr>';
+              $('#commentstable').append(tableComment);
             }
           }
           $('#count').html(commentcount + ' Comment');
@@ -64,6 +66,7 @@
     getComments: function(url, callback, errback) {
       return Backend.getSite(url);
     },
+    getCount: function(url, callback, errback) {},
     createSite: function(url, nickname, email, comment) {
       var req, req2, siteJson;
       console.log("Create site" + url + nickname + email + comment);
@@ -94,6 +97,7 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             i = _ref[_i];
             if (url === i.url) {
+              console.log("we have created new Comments");
               _results.push(Backend.sendComment(nickname, email, comment, i.resource_uri));
             } else {
               _results.push(void 0);
@@ -146,8 +150,8 @@
               return;
             }
           }
-          Backend.createSite(url, nickname, email, comment);
           console.log("We dont have this site");
+          Backend.createSite(url, nickname, email, comment);
         }
       };
     }

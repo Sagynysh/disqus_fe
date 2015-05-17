@@ -50,14 +50,14 @@ Issues:
 ## Requirements:
 
 
-* When switching between tabs, browser actions shows the number of comments for active page (1 pt)
+<!-- * When switching between tabs, browser actions shows the number of comments for active page (1 pt) -->
 * Urls should be cleaned: http://ya.ru, https://ya.ru/, https://ya.ru/?x=1 and http://ya.ru/#about are the same urls (2 pt)
 * Only comments for current url is shown (2 pt)
 * User can not leave a comment without entering credentials (1 pt)
 * User avatar is taken from gravatar.com service. (2 pt)
 * Comment publication date is shown (1 pt)
 * Comment author name is shown (1 pt)
-* Once user credentials are entered they are store in browser memory (localStorage), no need to enter it every time (2 pt)
+<!-- * Once user credentials are entered they are store in browser memory (localStorage), no need to enter it every time (2 pt) -->
 * If you dont implement comment pagination, then show all of them (1 pt)
 * Beautiful is better than ugly: make UI on worse then in a video (2 pt)
 

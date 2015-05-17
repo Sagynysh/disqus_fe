@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener (details) ->
 
 chrome.tabs.onActivated.addListener (callback) ->
 	
+	
 
 
 

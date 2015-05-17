@@ -27,8 +27,13 @@ $('#inputMessage').on 'keydown', (event) ->
 				# Take our current host url
 				hosturl=thistab[0].url.split('/')
 				# Send my new message and save it
-				Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $( "#inputMessage" ).val());
-				$( "#inputMessage" ).html ''
+				# checking is this site or note
+				if hosturl[0]=="http:" or hosturl[0]=="https:"
+					x=document.getElementById("inputMessage");
+					x.html="";
+					$('#inputMessage').html "";
+					Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $( "#inputMessage" ).val());
+					Backend.getComments(hosturl[2]);
 				return    
   	return
 
@@ -39,6 +44,7 @@ chrome.tabs.query {
   currentWindow: true
 	}, (thistab) ->
 		hosturl=thistab[0].url.split('/');
-		# console.log hosturl[2]
-		Backend.getComments(hosturl[2])
+		if hosturl[0] is "http:" or hosturl[0] is "https:"
+			console.log "this is site"
+			Backend.getComments(hosturl[2])
 		return

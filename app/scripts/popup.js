@@ -26,10 +26,15 @@
         active: true,
         currentWindow: true
       }, function(thistab) {
-        var hosturl;
+        var hosturl, x;
         hosturl = thistab[0].url.split('/');
-        Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $("#inputMessage").val());
-        $("#inputMessage").html('');
+        if (hosturl[0] === "http:" || hosturl[0] === "https:") {
+          x = document.getElementById("inputMessage");
+          x.html = "";
+          $('#inputMessage').html("");
+          Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $("#inputMessage").val());
+          Backend.getComments(hosturl[2]);
+        }
       });
     }
   });
@@ -40,7 +45,10 @@
   }, function(thistab) {
     var hosturl;
     hosturl = thistab[0].url.split('/');
-    Backend.getComments(hosturl[2]);
+    if (hosturl[0] === "http:" || hosturl[0] === "https:") {
+      console.log("this is site");
+      Backend.getComments(hosturl[2]);
+    }
   });
 
 }).call(this);
