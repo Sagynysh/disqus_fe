@@ -1,7 +1,6 @@
 'use strict';
-
 # this script is used in popup.html
-# cheching for existing name and email if exists enable message input, else disabled
+# checking for existing name and email if exists enable message input, else disabled
 if $('#inputEmail').val() == '' || $('#inputEmail').val() == null && $('#inputNickname').val() == '' || $('#inputNickname').val() == null
 	$( "#inputMessage" ).attr( "disabled", "" );
 
@@ -30,10 +29,17 @@ $('#inputMessage').on 'keydown', (event) ->
 				# checking is this site or note
 				if hosturl[0]=="http:" or hosturl[0]=="https:"
 					x=document.getElementById("inputMessage");
-					x.html="";
-					$('#inputMessage').html "";
+					# $('#inputMessage').html "";
 					Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $( "#inputMessage" ).val());
+					lastnickname=$('#inputNickname').val();
+					lastemail=$('#inputEmail').val();
+					document.getElementById("inputNickname").value=localStorage['lastnickname'];
+					document.getElementById("inputEmail").value=localStorage['lastemail'];
+					x.value="";
 					Backend.getComments(hosturl[2]);
+					console.log lastnickname+lastemail;
+					localStorage.setItem('lastemail',lastemail)
+					localStorage.setItem('lastnickname',lastnickname)
 				return    
   	return
 
@@ -44,7 +50,8 @@ chrome.tabs.query {
   currentWindow: true
 	}, (thistab) ->
 		hosturl=thistab[0].url.split('/');
+		document.getElementById("inputNickname").value=localStorage['lastnickname'];
+		document.getElementById("inputEmail").value=localStorage['lastemail'];
 		if hosturl[0] is "http:" or hosturl[0] is "https:"
-			console.log "this is site"
 			Backend.getComments(hosturl[2])
 		return

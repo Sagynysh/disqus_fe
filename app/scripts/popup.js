@@ -26,14 +26,20 @@
         active: true,
         currentWindow: true
       }, function(thistab) {
-        var hosturl, x;
+        var hosturl, lastemail, lastnickname, x;
         hosturl = thistab[0].url.split('/');
         if (hosturl[0] === "http:" || hosturl[0] === "https:") {
           x = document.getElementById("inputMessage");
-          x.html = "";
-          $('#inputMessage').html("");
           Backend.newComment(hosturl[2], $('#inputNickname').val(), $('#inputEmail').val(), $("#inputMessage").val());
+          lastnickname = $('#inputNickname').val();
+          lastemail = $('#inputEmail').val();
+          document.getElementById("inputNickname").value = localStorage['lastnickname'];
+          document.getElementById("inputEmail").value = localStorage['lastemail'];
+          x.value = "";
           Backend.getComments(hosturl[2]);
+          console.log(lastnickname + lastemail);
+          localStorage.setItem('lastemail', lastemail);
+          localStorage.setItem('lastnickname', lastnickname);
         }
       });
     }
@@ -45,8 +51,9 @@
   }, function(thistab) {
     var hosturl;
     hosturl = thistab[0].url.split('/');
+    document.getElementById("inputNickname").value = localStorage['lastnickname'];
+    document.getElementById("inputEmail").value = localStorage['lastemail'];
     if (hosturl[0] === "http:" || hosturl[0] === "https:") {
-      console.log("this is site");
       Backend.getComments(hosturl[2]);
     }
   });

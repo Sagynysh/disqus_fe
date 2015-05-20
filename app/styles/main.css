@@ -1,16 +1,16 @@
 body, html {
-    height: 600px;
+    height: 1200px;
     width: 400px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 body {
   /*padding: 20px;*/
 }
 
 .panel-body {
-    max-height: 300px;
+    max-height: 1200px;
 }
 
 .panel-primary{
-    max-height: 600px;
+    max-height: 1200px;
 }

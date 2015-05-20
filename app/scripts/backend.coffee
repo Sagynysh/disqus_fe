@@ -52,12 +52,13 @@ $this =
 
     getComments: (url, callback, errback) ->
         # call method, which is check and get comments
+        console.log "Get comments";
         Backend.getSite url
     getCount: (url, callback, errback)->
 
     # here if we write our first comments we create on db table according to this site
     createSite:(url,nickname, email, comment)->
-        console.log "Create site"+url+nickname+email+comment;
+        console.log "Create site"+url;
         siteJson = JSON.stringify(
             url:url
             )
@@ -66,7 +67,7 @@ $this =
         req.setRequestHeader 'Content-type', 'application/json; charset=utf-8'
         req.onreadystatechange = ->
             if req.status != 200 and req.status != 304
-                 console.log 'HTTP error ' + req.status
+                 console.log 'Create Site ' + req.status
             if req.readyState == 4 and req.status == 200
                 console.log "Send our Message"
         req.send siteJson
@@ -79,11 +80,11 @@ $this =
                 myArr = JSON.parse(req2.responseText)
                 for i in myArr.objects
                     if url is i.url
-                        console.log "we have created new Comments"
                         Backend.sendComment(nickname,email,comment,i.resource_uri);
     # send meesage to DB
     sendComment: (nickname, email, comment,resource_uri) ->
-        console.log nickname+email+comment+resource_uri
+        # console.log nickname+email+comment+resource_uri
+        # console.log "we have created new Comments"
         commentJson = JSON.stringify(
             nickname: nickname,
             email: email,
@@ -96,7 +97,7 @@ $this =
         req.setRequestHeader 'Content-type', 'application/json; charset=utf-8'
         req.onreadystatechange = ->
             if req.status != 200 and req.status != 304
-                 console.log 'HTTP error ' + req.status
+                 console.log 'Create comment ' + req.status
             if req.readyState == 4 and req.status == 200
                 console.log "Send our Message"
         req.send commentJson
@@ -114,13 +115,13 @@ $this =
                 for i in myArr.objects
                     if url is i.url
                         # if we have it we send our comments
-                        console.log "We have this site"
+                        # console.log "We have this site"
                         Backend.sendComment(nickname,email,comment,i.resource_uri)
                         return
                 # else we create this site
                 console.log "We dont have this site"
                 Backend.createSite(url,nickname, email, comment);
-                return
+                # return
     # updateCurrentComment:(counter)->
 
 

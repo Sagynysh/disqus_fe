@@ -64,12 +64,13 @@
       };
     },
     getComments: function(url, callback, errback) {
+      console.log("Get comments");
       return Backend.getSite(url);
     },
     getCount: function(url, callback, errback) {},
     createSite: function(url, nickname, email, comment) {
       var req, req2, siteJson;
-      console.log("Create site" + url + nickname + email + comment);
+      console.log("Create site" + url);
       siteJson = JSON.stringify({
         url: url
       });
@@ -78,7 +79,7 @@
       req.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       req.onreadystatechange = function() {
         if (req.status !== 200 && req.status !== 304) {
-          console.log('HTTP error ' + req.status);
+          console.log('Create Site ' + req.status);
         }
         if (req.readyState === 4 && req.status === 200) {
           return console.log("Send our Message");
@@ -97,7 +98,6 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             i = _ref[_i];
             if (url === i.url) {
-              console.log("we have created new Comments");
               _results.push(Backend.sendComment(nickname, email, comment, i.resource_uri));
             } else {
               _results.push(void 0);
@@ -109,7 +109,6 @@
     },
     sendComment: function(nickname, email, comment, resource_uri) {
       var commentJson, req;
-      console.log(nickname + email + comment + resource_uri);
       commentJson = JSON.stringify({
         nickname: nickname,
         email: email,
@@ -121,7 +120,7 @@
       req.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       req.onreadystatechange = function() {
         if (req.status !== 200 && req.status !== 304) {
-          console.log('HTTP error ' + req.status);
+          console.log('Create comment ' + req.status);
         }
         if (req.readyState === 4 && req.status === 200) {
           return console.log("Send our Message");
@@ -145,13 +144,12 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             i = _ref[_i];
             if (url === i.url) {
-              console.log("We have this site");
               Backend.sendComment(nickname, email, comment, i.resource_uri);
               return;
             }
           }
           console.log("We dont have this site");
-          Backend.createSite(url, nickname, email, comment);
+          return Backend.createSite(url, nickname, email, comment);
         }
       };
     }
